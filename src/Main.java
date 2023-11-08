@@ -1,3 +1,4 @@
+import DB_Connection.Connection_postgres;
 import PayService.PaymentService;
 import generators.cardGenerator;
 import generators.ordergenerator;
@@ -7,13 +8,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("hello to my payment system!");
+    public static void main(String[] args) throws Exception {
+        System.out.println("hello to my payment system!\n");
+        System.out.println("enter option number in all following options please\n");
 
-        //generate cards
+//        generate cards
 
 
-        System.out.println("1-pay\n2-cards (see available cards)\n3-done");
+        System.out.println("1-pay\n2-see available cards\n3-done");
 
         cardGenerator g = new cardGenerator();
 
@@ -21,15 +23,15 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
 
-        String res;
-        res = scanner.next();
+        int res = 1;
+        res = scanner.nextInt();
 
-        while(!res.equals("done"))
+        while(3 != res)
         {
             switch (res)
             {
-                case "pay" : ordergenerator.gen();break;
-                case "cards":
+                case 1 : ordergenerator.gen();break;
+                case 2:
                     System.out.println("available cards:");
                     System.out.println(PaymentService.cards);
                     break;
@@ -39,9 +41,12 @@ public class Main {
                     break;
             }
             System.out.println("1-pay\n2-cards (see available cards)\n3-done");
-            res = scanner.next();
+            res = scanner.nextInt();
 
         }
+
+//        Connection_postgres connectionPostgres = new Connection_postgres();
+//        connectionPostgres.Start_connection();
 
 
 

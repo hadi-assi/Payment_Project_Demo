@@ -1,7 +1,6 @@
 package PaymentData;
 
-import PayService.PaymentService;
-import PaymentData.PaymentExpireDate;
+import DB_Connection.Connection_postgres;
 
 import java.util.Scanner;
 
@@ -31,7 +30,13 @@ public class PaymentInformation {
     }
 
     public void CheckAvailability(){
-        if(!PaymentService.cards.containsKey(CardNumber))throw new IllegalStateException("card not in system");
+        Connection_postgres connectionPostgres = new Connection_postgres();
+        connectionPostgres.Start_connection();
+
+        connectionPostgres.queryCard(CardNumber);
+
+        connectionPostgres.End_Connection();
+
     }
 
     public void GetFromUser()
@@ -52,6 +57,7 @@ public class PaymentInformation {
         CheckExpiry();
         //check if card is available
         CheckAvailability();
+
 
     }
 

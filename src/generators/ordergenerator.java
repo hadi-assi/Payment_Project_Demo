@@ -1,5 +1,6 @@
 package generators;
 
+import DB_Connection.Connection_postgres;
 import PayService.CashService;
 import PayService.MasterCardService;
 import PayService.PaymentService;
@@ -35,26 +36,38 @@ public class ordergenerator {
 
         }
         if(paymentMethod != PaymentMethod.CASH)
-        {
             order.getPaymentInformation().GetFromUser();
-            order.getPaymentInformation().CheckAvailability();
-        }
 
 
 
 
 
-        System.out.println("Enter one of those choices: \n1- Add item\n2- Done");
-        String value = "add";
-        value = scanner.next();
 
-        while (!value.equals("done")) {
-            Item item = new Item();
-            item.GetData();
-            order.AddItem(item);
+        System.out.println("Enter one of those choices: \n1- add item\n2-see available items\n3-done");
+        int value = 1;
+        value = scanner.nextInt();
 
-            System.out.println("Enter one of those choices: \n1-Add\n2-Done");
-            value = scanner.next();
+
+        while (3 != value) {
+
+            switch (value)
+            {
+                case 1:{
+                    Item item = new Item();
+                    item.GetData();
+                    order.AddItem(item);
+                }break;
+                case 2:
+                {
+                    Connection_postgres.queryitems();
+                }break;
+                default:break;
+            }
+
+
+
+            System.out.println("Enter one of those choices: \n1- add item\n2-see available items\n3-done");
+            value = scanner.nextInt();
         }
 
         //adding items is done
